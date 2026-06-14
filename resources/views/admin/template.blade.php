@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@yield('title','Web Profile')</title>
+    <link rel="stylesheet" href="{{ asset('bootstrap-5.3.8-dist/css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="https://cdn.datatables.net/2.3.8/css/dataTables.dataTables.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.css"
+        integrity="sha512-3pIirOrwegjM6erE5gPSwkUzO+3cTjpnV9lexlNZqvupR64iZBnOOTiiLPb9M36zpMScbmUNIcHUqKD47M719g=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"
+        integrity="sha512-VEd+nq25CkR676O+pLBnDW09R7VQX9Mdiij052gVCp5yVH3jGtH70Ho/UUv4mJDsEdTvqRCFZg0NKGiojGnUCw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script>
+    const API_TOKEN = "{{ session('api_token') }}";
+    console.log("API Token:", API_TOKEN);
+    </script>
+</head>
+<style>
+body {
+    background-color: #f8f9fa;
+}
+
+.sidebar {
+    position: fixed;
+    top: 70px;
+    width: 200px;
+    min-height: calc(100vh - 70px);
+    background-color: #343a40;
+}
+
+.sidebar a {
+    color: #fff;
+    padding: 10px 15px;
+    display: block;
+    text-decoration: none;
+}
+
+.sidebar a:hover {
+    background-color: #495057;
+}
+
+.content {
+    margin-left: 250px;
+    margin-top: 70px;
+    padding: 20px;
+}
+</style>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-warning fixed-top shadow-sm px-3">
+        <!-- <div class="container"> -->
+        <a href="{{ route('admin.dashboard') }}" class="navbar-brand">
+            <img src="{{ asset('bootstrap-5.3.8-dist/images/logo.png') }}" alt="Logo" height="45"
+                class="d-inline-block align-top">
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item">
+                    <a href="{{ route('home') }}" class="nav-link">Home</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
+                        data-bs-toggle="dropdown" aria-expanded="false">
+                        {{ Auth::user()->name }}
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+                        <li class="dropdown-item-text text-muted">
+                            <small>{{ Auth::user()->email }}</small>
+                        </li>
+                        <li>
+                            <form method="POST" action="{{ route('admin.logout') }}">
+                                @csrf
+                                <button type="submit" class="dropdown-item">Logout</button>
+                            </form>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+        <!-- </div> -->
+    </nav>
+    <div class="sidebar shadow-sm">
+        <h5 class="text-center text-white">Menu Admin</h5>
+        <a href="{{ route('projects.index') }}">Data Project</a>
+        <a href="{{ route('admin.users') }}">Data User</a>
+        <a href="#">Data Contact</a>
+    </div>
+    <div class="content p-3 d-flex flex-column">
+        @yield('content')
+    </div>
+    <footer class="bg-white text-dark text-center border-top py-3 mt-5">
+        <div class="container">
+            <p>&copy; 2026 My Web Profile. All rights reserved.</p>
+        </div>
+    </footer>
+    <script src="{{ asset('bootstrap-5.3.8-dist/js/bootstrap.bundle.min.js') }}"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+    <script src="https://cdn.datatables.net/2.3.8/js/dataTables.js"></script>
+    @yield('scripts')
+</body>
+
+</html>
